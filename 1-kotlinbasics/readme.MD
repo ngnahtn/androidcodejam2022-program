@@ -1,11 +1,6 @@
-// playing Kotlin with playground  
+// playing Kotlin with playground 
+  
+// Learn how to use Android Studio  
+  
+// Build an Android App to display TextView and Image.  
 
-fun main() {  
-	for (i in 1..10) {  
-        	if (i.rem(2) == 0) {  
-     		    println("Hello, world! iam even")         
-        	} else {  
-            	println("Hello, world! im odd")  
-        	}  
-    	}  
-}  
