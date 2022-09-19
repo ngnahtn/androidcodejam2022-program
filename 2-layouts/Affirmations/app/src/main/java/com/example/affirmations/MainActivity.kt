@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         // init dataSource
         val recyclerView: RecyclerView = findViewById(R.id.recycle_view)
         recyclerView.adapter = ItemAdapter(this, dataSource)
-        
+
         recyclerView.setHasFixedSize(true)
     }
 
