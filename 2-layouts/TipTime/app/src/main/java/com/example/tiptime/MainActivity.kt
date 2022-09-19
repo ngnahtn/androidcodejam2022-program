@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     handle calculate Tip
     * */
     fun calculateTip() {
-        val string = binding.costOfService.text.toString()
+        val string = binding.costOfServiceEditText.text.toString()
         var selectedId = binding.tipOptions.checkedRadioButtonId
 
         // check textView.text is not null
