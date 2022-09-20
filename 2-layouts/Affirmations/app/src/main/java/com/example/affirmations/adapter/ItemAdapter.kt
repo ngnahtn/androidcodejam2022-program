@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.affirmations.R
 import com.example.affirmations.module.Affirmation
+import com.google.android.material.card.MaterialCardView
 
 /**
  * Adapter for the [RecyclerView] in [MainActivity]. Displays [Affirmation] data object.
@@ -25,6 +26,7 @@ class ItemAdapter(private val context: Context,
     class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.item_title)
         val imageView: ImageView = view.findViewById(R.id.item_image)
+        val root = view.findViewById<MaterialCardView>(R.id.layout_root)
     }
 
     /**
@@ -44,6 +46,9 @@ class ItemAdapter(private val context: Context,
         val item = dataset[position]
         holder.textView.text = context.resources.getString(item.stringResourceId)
         holder.imageView.setImageResource(item.imageResourceId)
+        holder.root.setOnClickListener {
+            println("asdasd")
+        }
     }
 
     /**
@@ -52,4 +57,5 @@ class ItemAdapter(private val context: Context,
     override fun getItemCount(): Int {
         return  dataset.size
     }
+
 }
