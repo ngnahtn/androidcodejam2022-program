@@ -38,28 +38,8 @@ class DetailActivity : AppCompatActivity() {
         val binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Retrieve the LETTER from the Intent extras
-        // intent.extras.getString returns String? (String or null)
-        // so toString() guarantees that the value will be a String
-
+        // recieve data frome previous by getStringExtra
         val letterId = intent.getStringExtra(Constant.LETTER).toString()
-
-        val recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter =  WordAdapter(letterId, this)
-        adapter.onButtonListener = object : OnWordButtonListener {
-            override fun onClickWordButton(url: Uri?) {
-                val intent = Intent(Intent.ACTION_VIEW,url)
-                startActivity(intent)
-            }
-        }
-        recyclerView.adapter = adapter
-
-        // Adds a [DividerItemDecoration] between items
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        )
-
         title = getString(R.string.detail_prefix) + " " + letterId
 
     }

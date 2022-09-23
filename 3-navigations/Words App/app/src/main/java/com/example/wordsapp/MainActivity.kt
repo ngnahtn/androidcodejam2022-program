@@ -21,6 +21,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,8 +37,9 @@ import java.util.zip.Inflater
  * Main Activity and entry point for the app. Displays a RecyclerView of letters.
  */
 class MainActivity : AppCompatActivity() {
-    private lateinit var recyclerView: RecyclerView
-    private var isLinearLayoutManager = true
+
+    //create navController
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,63 +47,16 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        recyclerView = binding.recyclerView
-        // Sets the LinearLayoutManager of the recyclerview
-        chooseLayout()
-        val adapter = LetterAdapter()
-        adapter.buttonListener = object : OnLetterButtonListener {
-            override fun onClickButton(letter: String) {
-                val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                intent.putExtra(Constant.LETTER, letter)
-                startActivity(intent)
-            }
-        }
-        recyclerView.adapter = adapter
+        // get info references to nav_host_fragment, assigne it to navController.
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
+        //Display all button or setup in navBar
+        setupActionBarWithNavController(navController)
     }
 
-    private fun chooseLayout() {
-        if (isLinearLayoutManager) {
-            recyclerView.layoutManager = LinearLayoutManager(this)
-        } else {
-            recyclerView.layoutManager = GridLayoutManager(this, 4)
-        }
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    /**
-     * create options Menu and its components
-     * */
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.layout_menu,menu)
-        // find button_switch
-        val layoutButton = menu?.findItem(R.id.action_switch_layout)
-        // set layout for menuButtonItem
-        setIcon(layoutButton)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // defind when switch button is selected
-        return when (item.itemId) {
-            R.id.action_switch_layout -> {
-                isLinearLayoutManager = !isLinearLayoutManager
-                chooseLayout()
-                setIcon(item)
-                return true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-    /**
-     * set Icon for menu Item
-     * */
-    private fun setIcon(menuItem: MenuItem?) {
-        if (menuItem == null)
-            return
-        if (isLinearLayoutManager) {
-            menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_grid_layout)
-        } else {
-            menuItem.icon =  ContextCompat.getDrawable(this, R.drawable.ic_linear_layout)
-        }
-    }
 }
